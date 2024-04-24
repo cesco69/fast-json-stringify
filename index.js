@@ -141,17 +141,19 @@ function build (schema, options) {
   const code = buildValue(context, location, 'input')
 
   let contextFunctionCode = `
-    const JSON_STR_BEGIN_OBJECT = '{'
-    const JSON_STR_END_OBJECT = '}'
-    const JSON_STR_BEGIN_ARRAY = '['
-    const JSON_STR_END_ARRAY = ']'
-    const JSON_STR_COMMA = ','
-    const JSON_STR_COLONS = ':'
-    const JSON_STR_QUOTE = '"'
-    const JSON_STR_EMPTY_OBJECT = JSON_STR_BEGIN_OBJECT + JSON_STR_END_OBJECT
-    const JSON_STR_EMPTY_ARRAY = JSON_STR_BEGIN_ARRAY + JSON_STR_END_ARRAY
-    const JSON_STR_EMPTY_STRING = JSON_STR_QUOTE + JSON_STR_QUOTE
-    const JSON_STR_NULL = 'null'
+  const {
+    JSON_STR_BEGIN_OBJECT,
+    JSON_STR_END_OBJECT,
+    JSON_STR_BEGIN_ARRAY,
+    JSON_STR_END_ARRAY,
+    JSON_STR_COMMA,
+    JSON_STR_COLONS,
+    JSON_STR_QUOTE,
+    JSON_STR_EMPTY_OBJECT,
+    JSON_STR_EMPTY_ARRAY,
+    JSON_STR_EMPTY_STRING,
+    JSON_STR_NULL
+  } = serializer.jsonStrings()
   `
 
   // If we have only the invocation of the 'anonymous0' function, we would
@@ -395,7 +397,7 @@ function buildInnerObject (context, location) {
     }
 
     if (hasRequiredProperties) {
-      addComma = 'json += \',\''
+      addComma = 'json += JSON_STR_COMMA'
     }
   }
 
